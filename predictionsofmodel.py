@@ -9,7 +9,7 @@ import pickle
 import streamlit as st
 
 # Load the saved model and scaler
-loaded_model = pickle.load(open('E:\Diabetes_Prediction_app\trained_model.sav', 'rb'))
+loaded_model = pickle.load(open('E:/Diabetes_Prediction_app/trained_model.sav', 'rb'))
 scaler = pickle.load(open('E:\Diabetes_Prediction_app\scaler.sav', 'rb'))  # Load the scaler
 
 # Function for Prediction
