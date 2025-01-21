@@ -2,12 +2,14 @@
 """
 Flask App for Diabetes Prediction
 """
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import numpy as np
 import pickle
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)  # Enable CORS for the app
 
 # Load the saved model and scaler
 loaded_model = pickle.load(open('trained_model.sav', 'rb'))
@@ -36,21 +38,22 @@ def diabetes_prediction(input_data):
 # Flask Routes
 @app.route('/')
 def home():
-    return render_template('index.html')  # Render HTML form
+    return jsonify({'message': 'Welcome to the Diabetes Prediction API!'})
 
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Extract form data
+        # Parse JSON input
+        data = request.get_json()
         input_values = [
-            request.form['Pregnancies'],
-            request.form['Glucose'],
-            request.form['BloodPressure'],
-            request.form['SkinThickness'],
-            request.form['Insulin'],
-            request.form['BMI'],
-            request.form['DiabetesPedigreeFunction'],
-            request.form['Age']
+            data['Pregnancies'],
+            data['Glucose'],
+            data['BloodPressure'],
+            data['SkinThickness'],
+            data['Insulin'],
+            data['BMI'],
+            data['DiabetesPedigreeFunction'],
+            data['Age']
         ]
         # Convert input data to float
         input_values = [float(x) for x in input_values]
